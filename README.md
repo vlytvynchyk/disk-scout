@@ -1,4 +1,4 @@
-# diskscout
+# DiskScout
 
 [![CI](https://github.com/vlytvynchyk/disk-scout/actions/workflows/ci.yml/badge.svg)](https://github.com/vlytvynchyk/disk-scout/actions/workflows/ci.yml)
 [![NuGet](https://img.shields.io/nuget/v/DiskScout?logo=nuget&color=blue)](https://www.nuget.org/packages/DiskScout)
@@ -6,6 +6,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Fast disk usage analyzer with visual breakdown, space waster detection, and cleanup suggestions.
+
+![diskscout screenshot](docs/disk-usage.png)
 
 ## Features
 
