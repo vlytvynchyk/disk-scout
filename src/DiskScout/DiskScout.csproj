@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>12</LangVersion>
+    <AssemblyName>diskscout</AssemblyName>
+    <RootNamespace>DiskScout</RootNamespace>
+
+    <!-- NuGet / dotnet tool packaging -->
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>diskscout</ToolCommandName>
+    <PackageId>DiskScout</PackageId>
+    <!-- Version set from git tag (YY.MM.patch) during CI; e.g., v26.3.0 -->
+    <Version>0.0.0-dev</Version>
+    <Authors>vlytvynchyk</Authors>
+    <Description>Fast disk usage analyzer for Windows. Scans directories, shows visual breakdown, identifies space wasters (node_modules, bin/obj, .git, caches), and suggests cleanup actions.</Description>
+    <PackageProjectUrl>https://github.com/vlytvynchyk/disk-scout</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/vlytvynchyk/disk-scout</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>disk-scout;disk-usage;disk-space;cleanup;analyzer;dotnet-tool;windows</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageIcon>icon.png</PackageIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\..\icon.png" Pack="true" PackagePath="\" />
+  </ItemGroup>
+</Project>

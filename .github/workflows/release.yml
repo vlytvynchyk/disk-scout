@@ -1,0 +1,92 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    strategy:
+      matrix:
+        include:
+          - rid: win-x64
+            artifact: diskscout-win-x64.exe
+          - rid: win-arm64
+            artifact: diskscout-win-arm64.exe
+          - rid: linux-x64
+            artifact: diskscout-linux-x64
+          - rid: osx-x64
+            artifact: diskscout-osx-x64
+          - rid: osx-arm64
+            artifact: diskscout-osx-arm64
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Extract version from tag
+        id: version
+        shell: bash
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Test
+        run: dotnet test -c Release --verbosity normal
+
+      - name: Publish self-contained
+        run: >
+          dotnet publish src/DiskScout/DiskScout.csproj
+          -c Release
+          -r ${{ matrix.rid }}
+          --self-contained true
+          -p:PublishSingleFile=true
+          -p:EnableCompressionInSingleFile=true
+          -p:IncludeNativeLibrariesForSelfExtract=true
+          -p:Version=${{ steps.version.outputs.VERSION }}
+          -o publish/${{ matrix.rid }}
+
+      - name: Rename artifact (Windows)
+        if: startsWith(matrix.rid, 'win')
+        shell: bash
+        run: mv publish/${{ matrix.rid }}/diskscout.exe publish/${{ matrix.artifact }}
+
+      - name: Rename artifact (Linux/macOS)
+        if: "!startsWith(matrix.rid, 'win')"
+        shell: bash
+        run: mv publish/${{ matrix.rid }}/diskscout publish/${{ matrix.artifact }}
+
+      - name: Generate SHA256 checksums
+        shell: bash
+        run: sha256sum publish/${{ matrix.artifact }} > publish/${{ matrix.artifact }}.sha256
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: |
+            publish/${{ matrix.artifact }}
+            publish/${{ matrix.artifact }}.sha256
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+          merge-multiple: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          files: artifacts/*

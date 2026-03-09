@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#FF6B6B"/>
+      <stop offset="100%" stop-color="#CC3333"/>
+    </linearGradient>
+    <linearGradient id="highlight" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="white" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="white" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4"/>
+      <feOffset dx="0" dy="3" result="offsetblur"/>
+      <feFlood flood-color="#8B1A1A" flood-opacity="0.35"/>
+      <feComposite in2="offsetblur" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <pattern id="dots" width="12" height="12" patternUnits="userSpaceOnUse">
+      <circle cx="6" cy="6" r="2" fill="white" opacity="0.15"/>
+    </pattern>
+  </defs>
+
+  <!-- Rounded square background -->
+  <rect x="0" y="0" width="512" height="512" rx="90" ry="90" fill="url(#bg)"/>
+
+  <!-- Dot pattern overlay -->
+  <rect x="0" y="0" width="512" height="512" rx="90" ry="90" fill="url(#dots)"/>
+
+  <!-- Full highlight gradient -->
+  <rect x="0" y="0" width="512" height="512" rx="90" ry="90" fill="url(#highlight)"/>
+
+  <!-- "S" letter - lighter pink, behind D -->
+  <text x="296" y="380" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="340" fill="#FFB8B8" opacity="0.85" text-anchor="middle">S</text>
+
+  <!-- "D" letter - white, in front -->
+  <text x="216" y="380" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="340" fill="white" filter="url(#shadow)" text-anchor="middle">D</text>
+</svg>
