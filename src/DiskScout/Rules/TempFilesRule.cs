@@ -4,12 +4,23 @@ public class TempFilesRule : ISpaceWasterRule
 {
     public string Category => "Temp Files";
 
-    public bool Matches(TreeNode node) =>
-        node.Name.Equals("Temp", StringComparison.OrdinalIgnoreCase) &&
-        (node.FullPath.Contains(@"\Windows\", StringComparison.OrdinalIgnoreCase) ||
-         node.FullPath.Equals(
-             Path.GetTempPath().TrimEnd(Path.DirectorySeparatorChar),
-             StringComparison.OrdinalIgnoreCase));
+    public bool Matches(TreeNode node)
+    {
+        if (!node.Name.Equals("Temp", StringComparison.OrdinalIgnoreCase) &&
+            !node.Name.Equals("tmp", StringComparison.OrdinalIgnoreCase))
+            return false;
+
+        if (OperatingSystem.IsWindows())
+        {
+            return node.FullPath.Contains(@"\Windows\", StringComparison.OrdinalIgnoreCase) ||
+                   node.FullPath.Equals(
+                       Path.GetTempPath().TrimEnd(Path.DirectorySeparatorChar),
+                       StringComparison.OrdinalIgnoreCase);
+        }
+
+        // Linux: /tmp
+        return node.FullPath.Equals("/tmp", StringComparison.Ordinal);
+    }
 
     public string GetDescription(TreeNode node) => "Temporary files";
 
@@ -17,5 +28,7 @@ public class TempFilesRule : ISpaceWasterRule
         Category,
         "Delete temporary files",
         totalSize,
-        "cleanmgr  (Windows Disk Cleanup)");
+        OperatingSystem.IsWindows()
+            ? "cleanmgr  (Windows Disk Cleanup)"
+            : "sudo rm -rf /tmp/*");
 }

@@ -13,5 +13,7 @@ public class PythonCacheRule : ISpaceWasterRule
         Category,
         "Delete __pycache__ directories",
         totalSize,
-        "Get-ChildItem -Recurse -Directory -Filter __pycache__ | Remove-Item -Recurse");
+        OperatingSystem.IsWindows()
+            ? "Get-ChildItem -Recurse -Directory -Filter __pycache__ | Remove-Item -Recurse"
+            : "find . -type d -name __pycache__ -exec rm -rf {} +");
 }

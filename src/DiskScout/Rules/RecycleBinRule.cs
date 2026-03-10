@@ -5,13 +5,17 @@ public class RecycleBinRule : ISpaceWasterRule
     public string Category => "Recycle Bin";
 
     public bool Matches(TreeNode node) =>
-        node.Name.Equals("$Recycle.Bin", StringComparison.OrdinalIgnoreCase);
+        node.Name.Equals("$Recycle.Bin", StringComparison.OrdinalIgnoreCase) ||
+        node.Name.Equals(".Trash", StringComparison.Ordinal) ||
+        node.Name.Equals(".Trash-1000", StringComparison.Ordinal);
 
-    public string GetDescription(TreeNode node) => "Deleted files in Recycle Bin";
+    public string GetDescription(TreeNode node) => "Deleted files in Recycle Bin / Trash";
 
     public CleanupSuggestion CreateSuggestion(long totalSize) => new(
         Category,
-        "Empty the Recycle Bin",
+        OperatingSystem.IsWindows() ? "Empty the Recycle Bin" : "Empty the Trash",
         totalSize,
-        "Clear-RecycleBin -Force");
+        OperatingSystem.IsWindows()
+            ? "Clear-RecycleBin -Force"
+            : "rm -rf ~/.local/share/Trash/*");
 }
