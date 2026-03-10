@@ -7,7 +7,7 @@
 
 Fast disk usage analyzer with visual breakdown, space waster detection, and cleanup suggestions.
 
-![diskscout screenshot](docs/disk-usage.png)
+![diskscout screenshot](https://raw.githubusercontent.com/vlytvynchyk/disk-scout/main/docs/disk-usage.png)
 
 ## Features
 
