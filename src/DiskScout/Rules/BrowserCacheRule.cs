@@ -24,7 +24,7 @@ public class BrowserCacheRule : ISpaceWasterRule
         Category,
         "Clear browser caches from browser settings",
         totalSize,
-        "Open browser Settings > Privacy > Clear browsing data");
+        "Open your browser > Settings > Privacy > Clear browsing data");
 
     private static HashSet<string> BuildKnownCachePaths()
     {

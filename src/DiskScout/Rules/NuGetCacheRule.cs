@@ -14,5 +14,7 @@ public class NuGetCacheRule : ISpaceWasterRule
         Category,
         "Clear NuGet package cache",
         totalSize,
-        "dotnet nuget locals all --clear");
+        OperatingSystem.IsWindows()
+            ? "Run in PowerShell: dotnet nuget locals all --clear"
+            : "Run in terminal: dotnet nuget locals all --clear");
 }

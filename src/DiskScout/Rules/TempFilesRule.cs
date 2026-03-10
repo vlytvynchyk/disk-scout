@@ -29,6 +29,6 @@ public class TempFilesRule : ISpaceWasterRule
         "Delete temporary files",
         totalSize,
         OperatingSystem.IsWindows()
-            ? "cleanmgr  (Windows Disk Cleanup)"
-            : "sudo rm -rf /tmp/*");
+            ? "Run in PowerShell: cleanmgr  (Windows Disk Cleanup)"
+            : "Run in terminal (requires root): sudo rm -rf /tmp/*");
 }

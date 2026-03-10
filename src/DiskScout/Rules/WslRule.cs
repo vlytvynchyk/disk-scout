@@ -15,7 +15,13 @@ public class WslRule : ISpaceWasterRule
         Category,
         "Compact WSL virtual disk to reclaim unused space",
         totalSize,
-        "wsl --shutdown && diskpart (select vdisk file=<path>\\ext4.vhdx, attach vdisk readonly, compact vdisk, detach vdisk)");
+        "Run in PowerShell as Administrator:\n" +
+        "         wsl --shutdown\n" +
+        "         diskpart\n" +
+        "           select vdisk file=<path>\\ext4.vhdx\n" +
+        "           attach vdisk readonly\n" +
+        "           compact vdisk\n" +
+        "           detach vdisk");
 
     private static bool HasVhdxFile(TreeNode node)
     {

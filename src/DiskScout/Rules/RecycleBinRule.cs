@@ -16,6 +16,6 @@ public class RecycleBinRule : ISpaceWasterRule
         OperatingSystem.IsWindows() ? "Empty the Recycle Bin" : "Empty the Trash",
         totalSize,
         OperatingSystem.IsWindows()
-            ? "Clear-RecycleBin -Force"
-            : "rm -rf ~/.local/share/Trash/*");
+            ? "Run in PowerShell as Administrator: Clear-RecycleBin -Force"
+            : "Run in terminal: rm -rf ~/.local/share/Trash/*");
 }

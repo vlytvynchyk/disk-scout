@@ -15,5 +15,7 @@ public class DockerRule : ISpaceWasterRule
         Category,
         "Remove unused Docker images and containers",
         totalSize,
-        "docker system prune -a");
+        OperatingSystem.IsWindows()
+            ? "Run in PowerShell: docker system prune -a"
+            : "Run in terminal: docker system prune -a");
 }

@@ -16,6 +16,6 @@ public class PythonVenvRule : ISpaceWasterRule
         "Remove unused virtual environments",
         totalSize,
         OperatingSystem.IsWindows()
-            ? "Delete .venv/venv folders in unused projects"
-            : "find . -type d \\( -name .venv -o -name venv -o -name .tox \\) -exec rm -rf {} +");
+            ? "Run in PowerShell: Remove-Item -Recurse <path>\\.venv"
+            : "Run in terminal: rm -rf <path>/.venv");
 }

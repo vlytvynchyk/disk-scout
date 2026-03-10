@@ -14,7 +14,9 @@ public class GitRepositoryRule : ISpaceWasterRule
 
     public CleanupSuggestion CreateSuggestion(long totalSize) => new(
         Category,
-        "Use shallow clones, run git gc, or use Git LFS for large files",
+        "Run git gc in each repo, use shallow clones, or Git LFS for large files",
         totalSize,
-        "git gc --aggressive --prune=now");
+        OperatingSystem.IsWindows()
+            ? "Run in PowerShell (inside repo): git gc --aggressive --prune=now"
+            : "Run in terminal (inside repo): git gc --aggressive --prune=now");
 }

@@ -14,7 +14,9 @@ public class RustBuildOutputRule : ISpaceWasterRule
         Category,
         "Clean Rust build artifacts",
         totalSize,
-        "cargo clean  (in each project directory)");
+        OperatingSystem.IsWindows()
+            ? "Run in PowerShell (inside project): cargo clean"
+            : "Run in terminal (inside project): cargo clean");
 
     private static bool HasCargoTomlSibling(TreeNode node)
     {

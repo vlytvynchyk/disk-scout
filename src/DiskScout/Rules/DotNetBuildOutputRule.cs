@@ -20,7 +20,9 @@ public class DotNetBuildOutputRule : ISpaceWasterRule
         Category,
         "Clean .NET build artifacts",
         totalSize,
-        "dotnet clean  (in each project directory)");
+        OperatingSystem.IsWindows()
+            ? "Run in PowerShell (inside project): dotnet clean"
+            : "Run in terminal (inside project): dotnet clean");
 
     private static bool HasProjectFileSibling(TreeNode node)
     {

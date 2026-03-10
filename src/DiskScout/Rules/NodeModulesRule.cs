@@ -13,5 +13,7 @@ public class NodeModulesRule : ISpaceWasterRule
         Category,
         "Delete node_modules folders and reinstall when needed",
         totalSize,
-        "npx npkill  (interactive node_modules cleaner)");
+        OperatingSystem.IsWindows()
+            ? "Run in PowerShell: npx npkill  (interactive node_modules cleaner)"
+            : "Run in terminal: npx npkill  (interactive node_modules cleaner)");
 }
