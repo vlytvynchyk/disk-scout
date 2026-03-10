@@ -8,6 +8,13 @@ public record ScanOptions(
 public class Scanner
 {
     private const long LargeFileThreshold = 100 * 1024 * 1024; // 100 MB
+
+    // Linux virtual filesystems that report fake sizes
+    private static readonly HashSet<string> VirtualFsPaths = new(StringComparer.Ordinal)
+    {
+        "/proc", "/sys", "/dev", "/run", "/snap"
+    };
+
     private readonly ScanOptions _options;
     private long _directoriesScanned;
     private long _lastProgressTicks;
@@ -89,9 +96,13 @@ public class Scanner
                         // Check for reparse points (junctions, symlinks)
                         bool isSymlink = (subDir.Attributes & FileAttributes.ReparsePoint) != 0;
 
+                        // Skip Linux virtual filesystems that report fake sizes
+                        bool isVirtualFs = VirtualFsPaths.Contains(subDir.FullName);
+
                         // Check exclusion list
-                        bool excluded = _options.ExcludeNames != null &&
-                            _options.ExcludeNames.Contains(subDir.Name);
+                        bool excluded = isVirtualFs ||
+                            (_options.ExcludeNames != null &&
+                            _options.ExcludeNames.Contains(subDir.Name));
 
                         var child = new TreeNode
                         {
